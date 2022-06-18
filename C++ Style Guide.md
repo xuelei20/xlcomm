@@ -136,3 +136,89 @@ void bar() {
 }
 ````
 综上所述，只允许原生数据类型静态储存周期变量，完全禁止vector（使用数组替代）、string（使用const char[]替代）。如果确实需要静态对象，可以用单例（只创建不销毁）。
+
+# 3.类
+
+## 构造函数
+- 构造函数不允许调用虚函数，这种调用不会重定向到子类的实现
+- 构造函数很难上报错误，如果需要有意义的初始化尽量使用Init()方法
+
+## 禁用隐式类型转换
+不要使用隐式类型转换，对于单参数构造函数和转换运算符加上explicit关键字
+
+## 可拷贝和可移动
+如果你的类需要就显示定义可拷贝(拷贝构造+拷贝赋值)和可移动(移动构造+移动赋值)函数，否则就把隐式拷贝和移动函数禁用
+````
+class Copyable {
+ public:
+  Copyable(const Copyable& other) = default;
+  Copyable& operator=(const Copyable& other) = default;
+
+  // The implicit move operations are suppressed by the declarations above.
+  // You may explicitly declare move operations to support efficient moves.
+};
+
+class MoveOnly {
+ public:
+  MoveOnly(MoveOnly&& other) = default;
+  MoveOnly& operator=(MoveOnly&& other) = default;
+
+  // The copy operations are implicitly deleted, but you can
+  // spell that out explicitly if you want:
+  MoveOnly(const MoveOnly&) = delete;
+  MoveOnly& operator=(const MoveOnly&) = delete;
+};
+
+class NotCopyableOrMovable {
+ public:
+  // Not copyable or movable
+  NotCopyableOrMovable(const NotCopyableOrMovable&) = delete;
+  NotCopyableOrMovable& operator=(const NotCopyableOrMovable&) = delete;
+
+  // The move operations are implicitly disabled, but you can
+  // spell that out explicitly if you want:
+  NotCopyableOrMovable(NotCopyableOrMovable&&) = delete;
+  NotCopyableOrMovable& operator=(NotCopyableOrMovable&&) = delete;
+};
+````
+不要为基类提供赋值、拷贝构造、移动构造函数。如果基类需要可复制，提供一个public virtual Clone()函数和protected拷贝构造函数以供派生类实现。
+
+## 结构体和类
+仅当只有数据成员时使用struct，其他一概使用class。结构体只提供构造、析构、Initialize()、Reset()、 Validate() 等用于设定数据成员的函数
+
+## 继承
+如果使用继承的话定义为public继承，数据成员必须为private
+
+C++实践中继承应用于两种场合：
+- 实现继承。继承基类的代码实现，减少编码工作量。不要过度使用实现继承，只有在“是一个”的情况下使用，否则组合更合适。
+- 接口继承。仅继承基类的接口，自己实现代码。如果你的类有虚函数，则析构函数也应该声明为virtual。
+
+对于重载的虚函数或虚析构函数，请使用override或final。
+好处：如果写错函数声明会编译报错，并且这些标记起到了文档的作用。
+````
+class Base
+{
+public:
+	Base() 
+	{
+	}
+	virtual ~Base() 
+	{
+	}
+	virtual void Run() = 0;
+};
+
+class Derived1 : public Base
+{
+public:
+	Derived1() : Base()
+	{
+	}
+	virtual ~Derived1() override
+	{
+	}
+	virtual void Run() override
+	{
+	}
+};
+````
