@@ -8,10 +8,10 @@
 ## 防止重复包含
 头文件必须有
 ````
-#ifndef FOO_BAR_H_
-#define FOO_BAR_H_
+#ifndef FOO_BAR_H
+#define FOO_BAR_H
 ...
-#endif // FOO_BAR_H_
+#endif // FOO_BAR_H
 ````
 
 如果要用#pragma once，需保证所有平台都有效。
@@ -31,3 +31,31 @@
 11. 条件编译
 
 # 2.作用域
+
+## 命名空间
+自己的代码应放在namespace里，不要使用using namespace xxx，以防污染全局代码。
+````
+// In the .h file
+namespace mynamespace {
+
+// All declarations are within the namespace scope.
+// Notice the lack of indentation.
+class MyClass {
+ public:
+  ...
+  void Foo();
+};
+
+}  // namespace mynamespace
+````
+````
+// In the .cc file
+namespace mynamespace {
+
+// Definition of functions is within scope of the namespace.
+void MyClass::Foo() {
+  ...
+}
+
+}  // namespace mynamespace
+````
