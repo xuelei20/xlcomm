@@ -33,7 +33,6 @@
 # 2.作用域
 
 ## 命名空间
-自己的代码应放在namespace里，不要使用using namespace xxx，以防污染全局代码。
 ````
 // In the .h file
 namespace mynamespace {
@@ -50,6 +49,10 @@ class MyClass {
 ````
 ````
 // In the .cc file
+#include "a.h"
+
+DEFINE_FLAG(bool, someflag, false, "dummy flag");
+
 namespace mynamespace {
 
 // Definition of functions is within scope of the namespace.
@@ -59,3 +62,5 @@ void MyClass::Foo() {
 
 }  // namespace mynamespace
 ````
+- 自己的代码应放在namespace里，不要使用using namespace xxx，以防污染全局代码
+- 在命名空间的最后注释上名字
