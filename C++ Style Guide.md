@@ -323,3 +323,49 @@ RTTI允许程序员在运行时识别C++类对象的类型，它通过使用type
 
 ## 流
 流是C++中的标准I/O抽象，如<iostream>所示。主要用于调试日志记录和测试诊断。
+
+## 使用前置自增和自减
+++iter效率更高，因为iter++多一次拷贝
+	
+## 尽可能多用const，让代码更安全
+````
+const int a = 10; // const标识常量，只读、不可修改
+	
+class A
+{
+public:
+	int getA() const; // 类成员函数使用const标识不会改变成员变量的值
+	void fun2(const std::string &str);
+private:
+	int m_a;
+};
+	
+// 以下三种都表示对象a只读，只能调用const成员函数
+const A a;
+const A& a;
+const A* pa; // 等于A const * pa;（可读性差）
+	
+// 下面是变态写法（不要用），表示指针不可修改
+A* const pa;
+````
+
+## constexpr编译期求值
+const还可以被volatile mutable改变，定义为constexpr则是真正意义上的常量
+	
+## 整型
+使用C++11标识大小的整型，比如int16_t、int32_t、int64_t。不要使用传统的long类型，因为在不同操作系统可能是不同长度。
+无符号整型很危险，尽量不要使用。
+	
+## 32位和64位的区别
+- 指针大小、结构体对齐不一样
+- 创建64位常量时使用LL或ULL作为后缀
+````
+int64_t value = 0x123456LL;
+uint64_t value2 = 3ULL << 48;
+````
+	
+## 谨慎使用宏
+尽量以内联函数、枚举、常量代替
+	
+## 使用nullptr代替NULL
+因为NULL在不同操作系统可能是不同定义
