@@ -248,15 +248,14 @@ public:
 
 ## 声明顺序
 类以public开始、protected在中间（少用）、private在最后。将类似的声明放在一起，建议以如下的顺序: 
-- 类型 (包括typedef, using和嵌套的结构体与类)
+- 类型 (typedef, using, enum, 嵌套结构和类)
 - 常量
 - 工厂函数
-- 构造函数
-- 赋值运算符
+- 构造函数、赋值运算符
 - 析构函数
-- 其它函数
-- 数据成员
-所有非静态数据成员必须为private
+- 其它函数（static以及非static成员函数和friend函数）
+- 数据成员（static以及非static）
+所有非static数据成员必须为private
 
 # 4.函数
 
