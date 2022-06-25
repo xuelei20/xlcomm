@@ -196,10 +196,8 @@ class NotCopyableOrMovable {
 
 结构体只提供构造、析构、Initialize()、Reset()、 Validate() 等用于设定数据成员的函数。
 
-类以public开始、protected在中间、private在最后。将类似的声明放在一起，建议以如下的顺序: 类型 (包括typedef, using和嵌套的结构体与类)、常量、工厂函数、构造函数、赋值运算符、析构函数、其它函数、数据成员。
-
 ## 继承
-如果使用继承的话定义为public继承，所有非静态数据成员必须为private
+如果使用继承的话定义为public继承
 
 C++实践中继承应用于两种场合：
 - 实现继承。继承基类的代码实现，减少编码工作量。不要过度使用实现继承，只有在“是一个”的情况下使用，否则组合更合适。
@@ -247,6 +245,18 @@ public:
 
 ## 运算符重载
 除少数特定情况外，不要进行运算符重载，也不要创建用户定义字面量。常用的运算符重载有=、==、>、<、<<
+
+## 声明顺序
+类以public开始、protected在中间（少用）、private在最后。将类似的声明放在一起，建议以如下的顺序: 
+- 类型 (包括typedef, using和嵌套的结构体与类)
+- 常量
+- 工厂函数
+- 构造函数
+- 赋值运算符
+- 析构函数
+- 其它函数
+- 数据成员
+所有非静态数据成员必须为private
 
 # 4.函数
 
@@ -322,7 +332,7 @@ RTTI允许程序员在运行时识别C++类对象的类型，它通过使用type
 - dynamic_cast<>参考上一节RTTI
 
 ## 流
-流是C++中的标准I/O抽象，如<iostream>所示。主要用于调试日志记录和测试诊断。
+流是C++中的标准I/O抽象，如iostream所示。主要用于调试日志记录和测试诊断
 
 ## 使用前置自增和自减
 ++iter效率更高，因为iter++多一次拷贝
@@ -354,7 +364,7 @@ const还可以被volatile mutable改变，定义为constexpr则是真正意义�
 	
 ## 整型
 使用C++11标识大小的整型，比如int16_t、int32_t、int64_t。不要使用传统的long类型，因为在不同操作系统可能是不同长度。
-无符号整型很危险，尽量不要使用。
+无符号整型很危险，尽量不要使用，可以用断言代替。
 	
 ## 32位和64位的区别
 - 指针大小、结构体对齐不一样
@@ -368,4 +378,85 @@ uint64_t value2 = 3ULL << 48;
 尽量以内联函数、枚举、常量代替
 	
 ## 使用nullptr代替NULL
-因为NULL在不同操作系统可能是不同定义
+因为NULL在不同操作系统可能是不同定义，可能只是单纯的0
+````
+#ifndef NULL
+    #ifdef __cplusplus
+        #define NULL 0
+    #else
+        #define NULL ((void *)0)
+    #endif
+#endif
+````
+
+## 用sizeof(var)代替sizeof(type)
+当变量类型改变时会自动更新
+
+## 用auto代替长类型名
+只在局部变量使用，保证很容易看出来是什么类型
+````
+std::map<int,int> kv;
+auto it = kv.begin();
+````
+
+## 可以用列表初始化
+```
+class MyVector
+{
+public:
+  MyVector(std::initializer_list<int> init_list)
+  {
+    for (int i : init_list)
+      std::cout << i << ' ';
+  }
+};
+
+MyVector vec = {1,2,3};
+```
+
+## 适当使用Lambda
+- 小函数使用lambda，别超过5行
+- 别用默认捕获[=]，所有捕获都要显示写出来
+- 可以和std::function、std::bind搭配成通用回调
+```
+void testFunction(std::function<void(int)> f, int a)
+{
+    f(a);
+}
+
+testFunction([](int num) {std::cout << num; }, 10);
+```
+
+## 不要使用复杂的模板编程
+尽量让代码读起来易懂
+
+## Boost
+只使用Boost中被认可的库
+
+## Modern C++
+以下头文件不要使用
+- '<ratio'>
+- '<cfenv'> '<fenv.h'> 
+- '<filesystem'> 没有足够的测试支持，并且存在固有的安全漏洞
+
+## 用using声明别名
+using比typedef更合适，因为它提供了与C++其他部分更一致的语法。注意不要在公共API中使用别名。
+```
+using TimeSeries = std::unordered_set<DataPoint, std::hash<DataPoint>, DataPointComparator>;
+typedef int XL_RESULT; // 反着呢
+```
+
+## 用std::function声明回调函数
+std::function表示C++函数对象，比C语言的回调函数更灵活，且语法方便
+```
+void testFunction(std::function<void(int)> f, int a)
+{
+    f(a);
+}
+
+typedef void(*cfun)(int); // 比较难写
+void testCFun(cfun f, int a)
+{
+    f(a);
+}
+```
