@@ -573,7 +573,7 @@ enum AlternateUrlTableErrors {
 在文件开头加入版权、作者、文件目的等
 ```
 // Author: 
-// Pursose: 
+// Purpose: 
 ```
 
 ## 类注释
