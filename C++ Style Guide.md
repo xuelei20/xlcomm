@@ -572,8 +572,8 @@ enum AlternateUrlTableErrors {
 ## 文件注释
 在文件开头加入版权、作者、文件目的等
 ```
-// Pursose: 
 // Author: 
+// Pursose: 
 ```
 
 ## 类注释
