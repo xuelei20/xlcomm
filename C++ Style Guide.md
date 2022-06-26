@@ -659,4 +659,68 @@ TODO 注释要使用全大写的字符串 TODO, 在随后的圆括号里写上�
 ## 弃用注释
 通过弃用注释（DEPRECATED comments）以标记某接口点已弃用。在 DEPRECATED 一词后, 在括号中留下您的名字, 邮箱地址以及其他身份标识。仅仅标记接口为 DEPRECATED 并不会让大家不约而同地弃用, 您还得亲自主动修正调用点（callsites）, 或是找个帮手.
 
-Tip：英语不好就用中文注释吧，这样别人也更容易理解。
+## 中文or英文？
+英语不好就用中文注释吧，这样别人也更容易理解。
+
+# 9.格式
+
+## 行长度
+每一行代码字符数最好不超过 80.
+
+## 非ASCII字符只使用UTF-8
+尽量不使用非 ASCII 字符, 使用时必须使用 UTF-8（或UTF-8 with BOM）编码格式。因为UTF-8更适合跨平台。
+别用 C++11 的 char16_t 和 char32_t, 它们和 UTF-8 文本没有关系, wchar_t 同理, 除非你写的代码要调用 Windows API（广泛使用了 wchar_t）
+
+## 缩进用2个空格
+使用2个空格缩进. 不要在代码中使用制表符. 你应该设置编辑器将制表符转为空格
+
+## 函数声明与定义
+- 返回类型和函数名在同一行, 参数也尽量放在同一行, 如果放不下就对形参分行并对齐
+- 左圆括号(总是和函数名在同一行，函数名和左圆括号间永远没有空格
+- 圆括号()与参数间没有空格
+- 右圆括号)和左大括号{间总是有一个空格
+- 左大括号{总在最后一个参数同一行的末尾处, 不另起新行
+- 右大括号}总是单独位于函数最后一行, 或者与左大括号同一行
+- 缺省缩进为 2 个空格，换行后的参数保持 4 个空格的缩进
+- 属性和展开为属性的宏, 写在函数声明或定义的最前面
+```
+ReturnType ClassName::FunctionName(Type par_name1, Type par_name2) {
+  DoSomething();
+  ...
+}
+
+ReturnType ClassName::ReallyLongFunctionName(Type par_name1, Type par_name2,
+                                             Type par_name3) {
+  DoSomething();
+  ...
+}
+
+ReturnType LongClassName::ReallyReallyReallyLongFunctionName(
+    Type par_name1,  // 4 space indent
+    Type par_name2,
+    Type par_name3) {
+  DoSomething();  // 2 space indent
+  ...
+}
+
+MUST_USE_RESULT bool IsOK();
+```
+
+## Lambda 表达式
+Lambda 表达式对形参和函数体的格式化和其他函数一致
+
+若用引用捕获, 在变量名和 & 之间不留空格.
+```
+int x = 0;
+auto add_to_x = [&x](int n) { x += n; };
+```
+
+短 lambda 就写得和内联函数一样.
+```
+std::set<int> blacklist = {7, 8, 9};
+std::vector<int> digits = {3, 9, 1, 8, 4, 7, 1};
+digits.erase(std::remove_if(digits.begin(), digits.end(), [&blacklist](int i) {
+               return blacklist.find(i) != blacklist.end();
+             }),
+             digits.end());
+```
