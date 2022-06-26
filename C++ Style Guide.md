@@ -724,3 +724,272 @@ digits.erase(std::remove_if(digits.begin(), digits.end(), [&blacklist](int i) {
              }),
              digits.end());
 ```
+
+## 函数调用
+要么一行写完函数调用, 要么在圆括号里对参数分行, 要么参数另起一行且缩进四格. 
+```
+bool retval = DoSomething(argument1, argument2, argument3);
+
+bool retval = DoSomething(averyveryveryverylongargument1,
+                          argument2, argument3);
+			  
+if (...) {
+  ...
+  ...
+  if (...) {
+    DoSomething(
+        argument1, argument2,  // 4 空格缩进
+        argument3, argument4);
+  }
+```
+
+## 列表初始化格式
+平时怎么格式化函数调用, 就怎么格式化 列表初始化
+```
+pair<int, int> p{foo, bar};
+
+SomeOtherType{"Slightly shorter string",  
+              some, other, values}};
+	      
+MyType m = {
+    superlongvariablename1,
+    superlongvariablename2,
+    {short, interior, list},
+    {interiorwrappinglist,
+     interiorwrappinglist2}};
+```
+
+## 条件语句
+倾向于不在圆括号内使用空格. 关键字 if 和 else 另起一行. 所有情况下 if 和左圆括号间都有个空格. 右圆括号和左大括号之间也有个空格
+```
+if (condition) {  // 圆括号里没有空格.
+  ...  // 2 空格缩进.
+} else if (...) {  // else 与 if 的右括号同一行.
+  ...
+} else {
+  ...
+}
+```
+如果能增强可读性, 简短的条件语句允许写在同一行. 只有当语句简单并且没有使用 else 子句时使用.
+```
+if (x == kFoo) return new Foo();
+if (x == kBar) return new Bar();
+
+if (condition)
+  DoSomething();  // 2 空格缩进.
+```
+单行语句可以不用大括号。但如果语句中某个 if-else 分支使用了大括号的话, 其它分支也必须使用
+
+## 循环和switch语句
+switch 语句可以使用大括号分段, 以表明 cases 之间不是连在一起的。也可不用。
+如果有不满足 case 条件的枚举值, switch 应该总是包含一个 default 匹配. 如果 default 应该永远执行不到, 简单的加条 assert:
+```
+switch (var) {
+  case 0: {  // 2 空格缩进
+    ...      // 4 空格缩进
+    break;
+  }
+  case 1: {
+    ...
+    break;
+  }
+  default: {
+    assert(false);
+  }
+}
+```
+
+在单语句循环里, 括号可用可不用：
+```
+for (int i = 0; i < kSomeNumber; ++i)
+  printf("I love you\n");
+
+for (int i = 0; i < kSomeNumber; ++i) {
+  printf("I take it back\n");
+}
+```
+空循环体应使用 {} 或 continue, 而不是一个简单的分号.
+```
+while (condition) {
+  // 反复循环直到条件失效.
+}
+for (int i = 0; i < kSomeNumber; ++i) {}  // 可以 - 空循环体.
+while (condition) continue;  // 可以 - continue 表明没有逻辑.
+```
+
+## 指针和引用
+句点或箭头前后不要有空格. 指针/地址操作符之后不能有空格.
+```
+x = r.y;
+x = r->y;
+x = *p;
+p = &x;
+```
+
+在声明指针变量或参数时, 星号与类型或变量名紧挨都可以。在多重声明中不能使用 & 或 *
+```
+// 好, 空格前置.
+char *c;
+const string &str;
+
+// 好, 空格后置.
+char* c;
+const string& str;
+
+int x, *y;  // 不允许 - 在多重声明中不能使用 & 或 *
+char * c;  // 差 - * 两边都有空格
+const string & str;  // 差 - & 两边都有空格.
+```
+在单个文件内要保持风格一致。如果是修改现有文件, 要遵照该文件的风格。
+
+## 布尔表达式
+如果一个布尔表达式超过 标准行宽, 断行方式要统一一下.
+下例中, 逻辑与 (&&) 操作符总位于行尾:
+```
+if (this_one_thing > this_other_thing &&
+    a_third_thing == a_fourth_thing &&
+    yet_another && last_one) {
+  ...
+}
+```
+
+## 变量及数组初始化
+用 =, () 和 {} 均可
+```
+int x = 3;
+int x(3);
+int x{3};
+string name("Some Name");
+string name = "Some Name";
+string name{"Some Name"};
+```
+使用std::initializer_list 和 {} 时注意避免歧义
+
+## 预处理指令
+预处理指令不要缩进, 从行首开始.
+```
+  if (lopsided_score) {
+#if DISASTER_PENDING      // 正确 - 从行首开始
+    DropEverything();
+#if NOTIFY               
+    NotifyClient();
+#endif
+#endif
+    BackToNormal();
+  }
+```
+
+## 类格式
+访问控制块的声明依次序是 public:, protected:, private:, 每个都缩进 1 个空格. 后两个要空一行
+```
+class MyClass : public OtherClass {
+ public:      // 注意有一个空格的缩进
+  MyClass();  // 标准的两空格缩进
+  explicit MyClass(int var);
+  ~MyClass() {}
+
+  void SomeFunction();
+  void SomeFunctionThatDoesNothing() {
+  }
+
+  void set_some_var(int var) { some_var_ = var; }
+  int some_var() const { return some_var_; }
+
+ private:
+  bool SomeInternalFunction();
+
+  int some_var_;
+  int some_other_var_;
+};
+```
+
+## 构造函数初始值列表
+构造函数初始化列表放在同一行或按四格缩进并排多行.
+```
+// 如果所有变量能放在同一行:
+MyClass::MyClass(int var) : some_var_(var) {
+  DoSomething();
+}
+
+// 如果不能放在同一行,
+// 必须置于冒号后, 并缩进 4 个空格
+MyClass::MyClass(int var)
+    : some_var_(var), some_other_var_(var + 1) {
+  DoSomething();
+}
+
+// 如果初始化列表需要置于多行, 将每一个成员放在单独的一行
+// 并逐行对齐
+MyClass::MyClass(int var)
+    : some_var_(var),             // 4 space indent
+      some_other_var_(var + 1) {  // lined up
+  DoSomething();
+}
+```
+
+## namespace格式化
+命名空间内容不缩进. 声明嵌套命名空间时, 每个命名空间都独立成行.
+```
+namespace {
+
+void foo() {  // 正确. 命名空间内没有额外的缩进.
+  ...
+}
+
+}  // namespace
+
+namespace foo {
+namespace bar {
+```
+
+## 水平留白
+水平留白的使用根据在代码中的位置决定. 不要在行尾留没意义的空格（可以设置IDE自动删除）
+```
+void f(bool b) {  // 左大括号前总是有空格.
+  ...
+int i = 0;  // 分号前不加空格.
+// 列表初始化中大括号内的空格是可选的.
+// 如果加了空格, 那么两边都要加上.
+int x[] = { 0 };
+int x[] = {0};
+
+// 继承与初始化列表中的冒号前后恒有空格.
+class Foo : public Bar {
+ public:
+  // 对于单行函数的实现, 在大括号内加上空格
+  Foo(int b) : Bar(), baz_(b) {}  // 大括号里面是空的话, 不加空格.
+  void Reset() { baz_ = 0; }  // 用空格把大括号与实现分开.
+  ...
+```
+
+操作符
+```
+// 赋值运算符前后总是有空格.
+x = 0;
+
+// 其它二元操作符也前后恒有空格, 不过对于表达式的子式可以不加空格.
+// 圆括号内部没有紧邻空格.
+v = w * x + y / z;
+v = w*x + y/z;
+v = w * (x + z);
+
+// 在参数和一元操作符之间不加空格.
+x = -5;
+++x;
+if (x && !y)
+  ...
+```
+
+模板和转换
+```
+// 尖括号(< and >) 不与空格紧邻, < 前没有空格, > 和 ( 之间也没有.
+vector<string> x;
+y = static_cast<char*>(x);
+
+// 在类型与指针操作符之间留空格也可以, 但要保持一致.
+vector<char *> x;
+```
+
+## 垂直留白
+垂直留白越少越好。基本原则是: 同一屏可以显示的代码越多, 越容易理解程序的控制流。
+这不仅仅是规则而是原则问题了: 不在万不得已, 不要使用空行. 尤其是: 两个函数定义之间的空行不要超过 2 行, 函数体首尾不要留空行, 函数体中也不要随意添加空行.
