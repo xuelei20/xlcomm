@@ -434,9 +434,11 @@ testFunction([](int num) {std::cout << num; }, 10);
 
 ## Modern C++
 以下头文件不要使用
-- '<ratio'>
-- '<cfenv'> '<fenv.h'> 
-- '<filesystem'> 没有足够的测试支持，并且存在固有的安全漏洞
+```
+<ratio>
+<cfenv> <fenv.h> 
+<filesystem> //没有足够的测试支持，并且存在固有的安全漏洞
+```
 
 ## 用using声明别名
 using比typedef更合适，因为它提供了与C++其他部分更一致的语法。注意不要在公共API中使用别名。
@@ -459,3 +461,202 @@ void testCFun(cfun f, int a)
     f(a);
 }
 ```
+
+# 7.命名约定
+最重要的一致性规则是命名管理. 命名的风格能让我们在不需要去查找类型声明的条件下快速地了解某个名字代表的含义: 类型, 变量, 函数, 常量, 宏, 等等, 甚至. 我们大脑中的模式匹配引擎非常依赖这些命名规则.
+
+## 通用命名规则
+自带描述性，别用他人看不懂的缩写
+```
+int price_count_reader;    // 无缩写
+int num_errors;            // "num" 是一个常见的写法
+int num_dns_connections;   // 人人都知道 "DNS" 是什么
+```
+
+## 文件命名
+文件名全部小写，以_(更好)或-连接。头文件以.h结尾，源文件以.cc结尾，专门插入文本的文件以.inc结尾。
+通常应尽量让文件名更加明确，http_server_logs.h 就比 logs.h 要好。
+定义类时文件名一般成对出现, 如 foo_bar.h 和 foo_bar.cc, 对应于类 FooBar。
+内联函数放在.h文件中。
+
+## 类型命名
+每个单词首字母大写，不包含下划线。如MyExcitingClass。
+类, 结构体, 类型定义 (typedef), 枚举, 类型模板参数都是这样。
+```
+// 类和结构体
+class UrlTable { ...
+struct UrlTableProperties { ...
+
+// 类型定义
+typedef hash_map<UrlTableProperties *, string> PropertiesMap;
+
+// using 别名
+using PropertiesMap = hash_map<UrlTableProperties *, string>;
+
+// 枚举
+enum UrlTableErrors { ...
+```
+
+## 变量命名
+变量(包括函数参数)和数据成员名一律小写，单词之间以_连接。
+```
+string table_name;  // 好 - 用下划线.
+string tablename;   // 好 - 全小写.
+string tableName;   // 差 - 混合大小写
+```
+
+类的成员变量以下划线结尾，结构体的不用
+```
+class TableInfo {
+  ...
+ private:
+  string table_name_;  // 好 - 后加下划线.
+  string tablename_;   // 好.
+  static Pool<TableInfo>* pool_;  // 好.
+};
+struct UrlTableProperties {
+  string name;
+  int num_entries;
+  static Pool<UrlTableProperties>* pool;
+};
+```
+
+## 常量命名
+声明为 constexpr 或 const 的变量, 或在程序运行期间其值始终保持不变的, 命名时以 “k” 开头, 大小写混合
+```
+const int kDaysInAWeek = 7;
+```
+所有具有静态存储类型的变量 (例如静态变量或全局变量) 都应当以此方式命名.
+
+## 函数命名
+常规函数使用大小写混合, 取值和设值函数则要求与变量名匹配: MyExcitingFunction(), MyExcitingMethod(), my_exciting_member_variable(), set_my_exciting_member_variable()。
+对于首字母缩写的单词, 更倾向于将它们视作一个单词进行首字母大写 (例如, 写作 StartRpc() 而非 StartRPC())。
+同样的命名规则同时适用于类作用域与命名空间作用域的常量, 因为它们是作为 API 的一部分暴露对外的, 因此应当让它们看起来像是一个函数。
+
+## namespace命名
+命名空间以小写字母命名。命名空间中的代码, 应当存放于和命名空间的名字匹配的文件夹或其子文件夹中。注意 不使用缩写作为名称 的规则同样适用于命名空间。要避免嵌套的命名空间与常见的顶级命名空间发生名称冲突
+
+## 宏命名
+尽量不用宏，如果一定要用，像这样命名: MY_MACRO_THAT_SCARES_SMALL_CHILDREN
+
+## 枚举命名
+单独的枚举值应该优先采用 常量 的命名方式，尽量少用 宏 方式的命名（可能导致枚举值和宏之间的命名冲突）
+```
+// better
+enum UrlTableErrors {
+    kOK = 0,
+    kErrorOutOfMemory,
+    kErrorMalformedInput,
+};
+enum AlternateUrlTableErrors {
+    OK = 0,
+    OUT_OF_MEMORY = 1,
+    MALFORMED_INPUT = 2,
+};
+```
+
+## 特例
+如果你命名的实体与已有 C/C++ 实体相似, 可参考现有命名策略.
+- bigopen(): 函数名, 参照 open() 的形式
+- uint: typedef
+- bigpos: struct 或 class, 参照 pos 的形式
+- sparse_hash_map: STL 型实体; 参照 STL 命名约定
+- LONGLONG_MAX: 常量, 如同 INT_MAX
+
+# 8.注释
+注释虽然写起来很痛苦, 但对保证代码可读性至关重要。注释固然很重要, 但最好的代码应当本身就是文档. 有意义的类型名和变量名, 要远胜过要用注释解释的含糊不清的名字。
+你写的注释是给代码读者看的, 也就是下一个需要理解你的代码的人. 所以慷慨些吧, 下一个读者可能就是你!
+
+## 注释风格
+// 或 /* */ 都可以; 但 // 更 常用. 要在如何注释及注释风格上确保统一.
+
+## 文件注释
+在文件开头加入版权、作者、文件目的等
+```
+// Pursose: 
+// Author: 
+```
+
+## 类注释
+每个类的定义都要附带一份注释, 描述类的功能和用法, 除非它的功能相当明显.
+```
+// Iterates over the contents of a GargantuanTable.
+// Example:
+//    GargantuanTableIterator* iter = table->NewIterator();
+//    for (iter->Seek("foo"); !iter->done(); iter->Next()) {
+//      process(iter->key(), iter->value());
+//    }
+//    delete iter;
+class GargantuanTableIterator {
+  ...
+};
+```
+如果类的声明和定义分开了(例如分别放在了 .h 和 .cc 文件中), 此时, 描述类用法的注释应当和接口定义放在一起, 描述类的操作和实现的注释应当和实现放在一起
+
+## 函数注释
+函数声明处的注释描述函数功能; 定义处的注释描述函数实现
+
+基本上每个函数声明处前都应当加上注释, 描述函数的功能和用途. 只有在函数的功能简单而明显时才能省略这些注释(例如, 简单的取值和设值函数、构造析构函数).
+函数声明处注释的内容:
+- 函数的输入输出.
+- 对类成员函数而言: 函数调用期间对象是否需要保持引用参数, 是否会释放这些参数.
+- 函数是否分配了必须由调用者释放的空间.
+- 参数是否可以为空指针.
+- 是否存在函数使用上的性能隐患.
+- 如果函数是可重入的, 其同步前提是什么?
+```
+// Returns an iterator for this table.  It is the client's
+// responsibility to delete the iterator when it is done with it,
+// and it must not use the iterator once the GargantuanTable object
+// on which the iterator was created has been deleted.
+//
+// The iterator is initially positioned at the beginning of the table.
+//
+// This method is equivalent to:
+//    Iterator* iter = table->NewIterator();
+//    iter->Seek("");
+//    return iter;
+// If you are going to immediately seek to another place in the
+// returned iterator, it will be faster to use NewIterator()
+// and avoid the extra seek.
+Iterator* GetIterator() const;
+```
+
+如果函数的实现过程中用到了很巧妙的方式, 那么在函数定义处应当加上解释性的注释
+
+## 变量注释
+类数据成员加上注释，全局变量必须加注释。特殊注意的地方也要注释
+
+## 实现注释
+对于代码中巧妙的, 晦涩的, 有趣的, 重要的地方加以注释
+
+比较隐晦的地方要在行尾加入注释. 在行尾空两格进行注释. 比如:
+```
+// If we have enough memory, mmap the data portion too.
+mmap_budget = max<int64>(0, mmap_budget - index_->length());
+if (mmap_budget >= data_size_ && !MmapData(mmap_chunk_bytes, mlock))
+  return;  // Error already logged.
+```
+
+如果某个函数有多个配置选项, 你可以考虑定义一个类或结构体以保存所有的选项
+
+自文档化的代码根本就不需要注释
+```
+if (!IsAlreadyProcessed(element)) {
+  Process(element);
+}
+```
+
+## TODO注释
+TODO 注释要使用全大写的字符串 TODO, 在随后的圆括号里写上你的名字, 邮件地址, bug ID, 或其它身份标识和与这一 TODO 相关的 issue. 
+```
+// TODO(kl@gmail.com): Use a "*" here for concatenation operator.
+// TODO(Zeke) change this to use relations.
+// TODO(bug 12345): remove the "Last visitors" feature
+```
+如果加 TODO 是为了在 “将来某一天做某事”, 可以附上一个非常明确的时间 “Fix by November 2005”), 或者一个明确的事项 (“Remove this code when all clients can handle XML responses.”).
+
+## 弃用注释
+通过弃用注释（DEPRECATED comments）以标记某接口点已弃用。在 DEPRECATED 一词后, 在括号中留下您的名字, 邮箱地址以及其他身份标识。仅仅标记接口为 DEPRECATED 并不会让大家不约而同地弃用, 您还得亲自主动修正调用点（callsites）, 或是找个帮手.
+
+Tip：英语不好就用中文注释吧，这样别人也更容易理解。
