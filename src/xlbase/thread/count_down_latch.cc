@@ -2,8 +2,7 @@
 
 #include "count_down_latch.h"
 
-namespace xlcomm {
-namespace base {
+namespace xlbase {
 
 CountDownLatch::CountDownLatch(int count)
   : mutex_(), condition_(), count_(count) {
@@ -29,5 +28,4 @@ int CountDownLatch::count() const {
   return count_;
 }
 
-}  // namespace base
-}  // namespace xlcomm
+}  // namespace xlbase

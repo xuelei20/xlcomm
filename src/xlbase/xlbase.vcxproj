@@ -32,7 +32,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{0fe0af68-80b8-4b27-a34c-791b36a753cc}</ProjectGuid>
-    <RootNamespace>base</RootNamespace>
+    <RootNamespace>xlbase</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

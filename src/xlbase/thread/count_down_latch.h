@@ -1,14 +1,13 @@
 ﻿// Author:  xuel
 // Purpose: 线程同步原语高级封装——倒数器
 
-#ifndef XLCOMM_BASE_COUNTDOWNLATCH_H_
-#define XLCOMM_BASE_COUNTDOWNLATCH_H_
+#ifndef XLBASE_COUNTDOWNLATCH_H_
+#define XLBASE_COUNTDOWNLATCH_H_
 
 #include <condition_variable>
 #include <mutex>
 
-namespace xlcomm {
-namespace base {
+namespace xlbase {
 
 class CountDownLatch {
 public:
@@ -23,7 +22,6 @@ private:
   int count_;
 };
 
-}  // namespace base
-}  // namespace xlcomm
+}  // namespace xlbase
 
-#endif  // XLCOMM_BASE_COUNTDOWNLATCH_H_
+#endif  // XLBASE_COUNTDOWNLATCH_H_
