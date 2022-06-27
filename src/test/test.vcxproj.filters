@@ -10,7 +10,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="base\test01.cpp">
+    <ClCompile Include="base\test01.cc">
       <Filter>base</Filter>
     </ClCompile>
   </ItemGroup>
