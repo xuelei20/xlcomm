@@ -22,11 +22,14 @@
     <ClCompile Include="thread\count_down_latch.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="i_xlbase.h" />
     <ClInclude Include="thread\bounded_blocking_queue.h" />
     <ClInclude Include="thread\count_down_latch.h" />
     <ClInclude Include="thread\blocking_queue.h" />
+    <ClInclude Include="thread\i_thread.h" />
     <ClInclude Include="thread\singleton.h" />
     <ClInclude Include="thread\thread_pool.h" />
+    <ClInclude Include="xlbase_define.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -110,17 +113,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;XLCOMM_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(XLCOMM_ROOT_PATH)\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>$(SolutionDir)..\bin\windows_x86\$(TargetName)$(TargetExt)</OutputFile>
-      <ProgramDatabaseFile>$(SolutionDir)..\bin\windows_x86\pdb\$(TargetName).pdb</ProgramDatabaseFile>
+      <OutputFile>$(XLCOMM_ROOT_PATH)\bin\windows_x86\$(TargetName)$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(XLCOMM_ROOT_PATH)\bin\windows_x86\pdb\$(TargetName).pdb</ProgramDatabaseFile>
+      <ImportLibrary>$(XLCOMM_ROOT_PATH)\lib\windows_x86\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -141,17 +146,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;XLCOMM_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(XLCOMM_ROOT_PATH)\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>$(SolutionDir)..\bin\windows_x64\$(TargetName)_64$(TargetExt)</OutputFile>
-      <ProgramDatabaseFile>$(SolutionDir)..\bin\windows_x64\pdb\$(TargetName)_64.pdb</ProgramDatabaseFile>
+      <OutputFile>$(XLCOMM_ROOT_PATH)\bin\windows_x64\$(TargetName)_64$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(XLCOMM_ROOT_PATH)\bin\windows_x64\pdb\$(TargetName)_64.pdb</ProgramDatabaseFile>
+      <ImportLibrary>$(XLCOMM_ROOT_PATH)\lib\windows_x64\$(TargetName)_64.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

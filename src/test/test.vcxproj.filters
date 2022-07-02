@@ -10,7 +10,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="base\test01.cc">
+    <ClCompile Include="base\thread_test.cc">
       <Filter>base</Filter>
     </ClCompile>
   </ItemGroup>

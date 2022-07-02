@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="base\test01.cc" />
+    <ClCompile Include="base\thread_test.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -106,14 +106,17 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(XLCOMM_ROOT_PATH)\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(SolutionDir)..\bin\windows_x86\pdb\$(TargetName).pdb</ProgramDatabaseFile>
-      <OutputFile>$(SolutionDir)..\bin\windows_x86\$(TargetName)$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(XLCOMM_ROOT_PATH)\bin\windows_x86\pdb\$(TargetName).pdb</ProgramDatabaseFile>
+      <OutputFile>$(XLCOMM_ROOT_PATH)\bin\windows_x86\$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalDependencies>xlbase.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(XLCOMM_ROOT_PATH)\lib\windows_x86</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,14 +140,17 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(XLCOMM_ROOT_PATH)\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <OutputFile>$(SolutionDir)..\bin\windows_x64\$(TargetName)_64$(TargetExt)</OutputFile>
-      <ProgramDatabaseFile>$(SolutionDir)..\bin\windows_x64\pdb\$(TargetName)_64.pdb</ProgramDatabaseFile>
+      <OutputFile>$(XLCOMM_ROOT_PATH)\bin\windows_x64\$(TargetName)_64$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(XLCOMM_ROOT_PATH)\bin\windows_x64\pdb\$(TargetName)_64.pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>xlbase_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(XLCOMM_ROOT_PATH)\lib\windows_x64</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

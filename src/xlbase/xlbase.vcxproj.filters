@@ -30,5 +30,10 @@
     <ClInclude Include="thread\bounded_blocking_queue.h">
       <Filter>thread</Filter>
     </ClInclude>
+    <ClInclude Include="thread\i_thread.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="i_xlbase.h" />
+    <ClInclude Include="xlbase_define.h" />
   </ItemGroup>
 </Project>

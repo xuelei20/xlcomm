@@ -6,6 +6,14 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xlbase", "xlbase\xlbase.vcxproj", "{0FE0AF68-80B8-4B27-A34C-791B36A753CC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{B77324F5-28A1-44C6-8BC7-F6F7289D7373}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0FE0AF68-80B8-4B27-A34C-791B36A753CC} = {0FE0AF68-80B8-4B27-A34C-791B36A753CC}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93904375-CAD5-4A48-8D27-603A17FBDA69}"
+	ProjectSection(SolutionItems) = preProject
+		xlcomm_define.h = xlcomm_define.h
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
