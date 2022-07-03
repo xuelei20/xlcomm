@@ -353,7 +353,7 @@ const A a;
 const A& a;
 const A* pa; // 等于A const * pa;（可读性差）
 	
-// 下面是变态写法（不要用），表示指针不可修改
+// 下面是变态写法（尽量不用），表示指针不可修改
 A* const pa;
 ```
 
