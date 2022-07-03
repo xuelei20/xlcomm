@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <mutex>
+#include <condition_variable>
 
 #include "xlcomm_define.h"
 
@@ -14,7 +15,8 @@ namespace xlbase {
 class XLCOMM_API CountDownLatch {
 public:
   explicit CountDownLatch(int count);
-  XLCOMM_NOT_COPY_OR_MOVE(CountDownLatch);
+  CountDownLatch(const CountDownLatch&) = delete;
+  CountDownLatch& operator=(const CountDownLatch&) = delete;
 
   void Wait();
   void CountDown();

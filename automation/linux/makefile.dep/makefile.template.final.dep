@@ -1,0 +1,29 @@
+
+SRC := $(foreach d, $(DIR), $(wildcard $(d)/*.cc ))
+
+SRC_C := $(foreach d, $(DIR), $(wildcard $(d)/*.c ))
+
+OBJECT := $(patsubst %.cc, %.o, $(SRC))
+OBJECT += $(patsubst %.c, %.o, $(SRC_C))
+
+# 链接用的,可以看到后面加了$(LIBS),因为只有链接时候才需要引用库文件
+$(TARGET) : $(OBJECT)
+	mkdir -p $(XLCOMM_ROOT_PATH)/bin/$(XL_CROSS_PLATFORM)/	
+	$(LINK) $(COMMON_SYMBOLS_FLAGS) $(SYMBOLS_FLAGS) $(COMMON_FLAGS) $(FLAGS) $(LINKFLAGS) -o $@ $^ $(LIBS) $(COMMON_LIBS)  -Wl,-no-undefined -Wl,-rpath=$(XLCOMM_ROOT_PATH)/bin/$(XL_CROSS_PLATFORM)
+
+# 编译 cc 代码用这个目标
+.cc.o:
+	$(GCC) -c $(COMMON_HEADER) $(HEADER) $(COMMON_SYMBOLS_FLAGS) $(SYMBOLS_FLAGS) $(COMMON_CPP_FLAGS) $(FLAGS) $(GCCFLAGS) -fpermissive -o $@ $<
+
+# 编译 c 代码用这个
+.c.o:
+	$(GC) -c $(COMMON_HEADER) $(HEADER) $(COMMON_SYMBOLS_FLAGS) $(SYMBOLS_FLAGS) $(COMMON_C_FLAGS) $(FLAGS) -o $@ $<
+
+# 把生成的$(TARGET)拷贝到$(BIN_PATH)下
+# install: $(TARGET)
+#	cp $(TARGET) $(BIN_PATH)
+
+clean:
+	rm -rf $(TARGET) *.o *.so *.a
+	find . -name "*.o" -type f -delete
+

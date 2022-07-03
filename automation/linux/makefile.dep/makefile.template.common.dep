@@ -1,0 +1,74 @@
+# 这行直接写 g++也是没有任何问题的
+LINK = g++
+
+# 编译 c++代码时候用的,一样会显示 compiling xxx
+GCC = @echo compiling $@ && $(CXX)
+
+# 编译 c 代码时候用 gcc
+GC = @echo compiling $@ && $(CC)
+
+# 生成静态库时候用 ar 命令
+AR = @echo generating static library $@ && ar crv
+
+
+ifeq ($(DEBUG_SYMBOLS), true)
+debug_flags = -ggdb -D_DEBUG
+else
+debug_flags = -gdwarf-2 -gstrict-dwarf
+endif
+
+# 这是编译时候的参数设置,下面-g 表示编译时候加入调试信息,
+# -DDEBUG 表示编译 debug 版本
+# -W -Wall 表示输出所有警告
+# -fPIC 是生成 dll 时候用的
+COMMON_CPP_FLAGS += \
+	-std=c++14 \
+	-D_LINUX -W -Wall -fPIC \
+	-D_GLIBCXX_USE_NANOSLEEP \
+	-Wno-parentheses \
+	-Wno-enum-compare \
+	-Wno-unused-parameter \
+	-Wno-unused-value \
+	-Wno-unused-variable \
+	-Wno-unused-but-set-variable \
+	-Wno-delete-non-virtual-dtor \
+	-Wno-unused-function \
+	-Wno-reorder \
+	-Wno-switch \
+	-Wno-subobject-linkage \
+	-Wdeprecated-declarations \
+	-fvisibility=hidden \
+	-fvisibility-inlines-hidden \
+	$(debug_flags)
+
+COMMON_C_FLAGS += \
+	-D_LINUX -W -Wall -fPIC \
+	-D_GLIBCXX_USE_NANOSLEEP \
+	-Wno-parentheses \
+	-Wno-enum-compare \
+	-Wno-unused-parameter \
+	-Wno-unused-value \
+	-Wno-unused-variable \
+	-Wno-unused-but-set-variable \
+	-Wno-unused-function \
+	-Wno-switch \
+	-Wno-cast-function-type \
+	-Wdeprecated-declarations \
+	-fvisibility=hidden \
+	$(debug_flags)
+
+COMMON_SYMBOLS_FLAGS = -g
+
+
+# 这里指出头文件的目录为./
+COMMON_HEADER = -I./ \
+	-I$(XLCOMM_ROOT_PATH) \
+	-I$(XLCOMM_ROOT_PATH)/src/ \
+	-I$(XLCOMM_ROOT_PATH)/third_party/ \
+
+
+COMMON_LIBS += -lstdc++fs -pthread -ldl
+
+
+
+

@@ -4,9 +4,9 @@
 #ifndef XLCOMM_DEFINE_H_
 #define XLCOMM_DEFINE_H_
 
-#ifndef XLCOMM_MSVC
-#define XLCOMM_MSVC   _MSC_VER
-#endif  // XLCOMM_MSVC
+#if _MSC_VER
+#define XLCOMM_MSVC   
+#endif  // _MSC_VER
 
 #ifdef XLCOMM_MSVC
 #ifdef XLCOMM_EXPORT
@@ -17,13 +17,5 @@
 #else
 #define XLCOMM_API    
 #endif  // XLCOMM_MSVC
-
-#define XLCOMM_NOT_COPY_OR_MOVE(class_name)   \
-  class_name##(const class_name##&) = delete; \
-  class_name##& operator=(const class_name##&) = delete;
-
-#define XLCOMM_MOVE_ONLY(class_name)   \
-  class_name##(class_name##&&) = default; \
-  class_name##& operator=(class_name##&&) = default;
 
 #endif  // XLCOMM_DEFINE_H_

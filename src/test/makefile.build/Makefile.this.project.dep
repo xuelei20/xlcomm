@@ -1,0 +1,15 @@
+# output module name
+OUTPUT_NAME = thread_test
+
+# target path
+TARGET = $(XLCOMM_ROOT_PATH)/bin/$(XL_CROSS_PLATFORM)/$(OUTPUT_NAME)
+
+# additional include dir
+HEADER = -I./ \
+
+# project dir list
+DIR := . \
+	$(XLCOMM_ROOT_PATH)/src/test/base \
+
+# dependent libs
+LIBS += -L $(XLCOMM_ROOT_PATH)/bin/$(XL_CROSS_PLATFORM) -lxlbase

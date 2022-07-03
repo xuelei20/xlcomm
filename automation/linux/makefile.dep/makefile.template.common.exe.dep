@@ -1,0 +1,3 @@
+include $(XLCOMM_ROOT_PATH)/automation/linux/makefile.dep/makefile.template.common.dep
+
+# LINKFLAGS =  -shared
