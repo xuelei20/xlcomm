@@ -1,4 +1,4 @@
-﻿// 包含线程所有头文件
+﻿// 包含xlbase模块所有头文件
 // Author: xuel
 
 #ifndef XLBASE_IXLBASE_H_

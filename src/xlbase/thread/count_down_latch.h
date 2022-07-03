@@ -4,7 +4,7 @@
 #ifndef XLBASE_COUNTDOWNLATCH_H_
 #define XLBASE_COUNTDOWNLATCH_H_
 
-#include <condition_variable>
+#include <memory>
 #include <mutex>
 
 #include "xlcomm_define.h"
@@ -14,14 +14,19 @@ namespace xlbase {
 class XLCOMM_API CountDownLatch {
 public:
   explicit CountDownLatch(int count);
+  XLCOMM_NOT_COPY_OR_MOVE(CountDownLatch);
+
   void Wait();
   void CountDown();
   int count() const;
 
 private:
-  mutable std::mutex mutex_;
-  std::condition_variable condition_;
-  int count_;
+  struct Impl {
+    mutable std::mutex mutex;
+    std::condition_variable condition;
+    int count = 0;
+  };
+  std::unique_ptr<Impl> impl_;
 };
 
 }  // namespace xlbase
