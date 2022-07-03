@@ -10,11 +10,11 @@
 
 void TestCountDownLatch() {
   xlbase::CountDownLatch latch(3);
-  std::cout << sizeof(latch) << std::endl;
+  std::cout << "sizeof(latch):" << sizeof(latch) << std::endl;
 
   std::thread thread_master([&latch]() {
     latch.Wait();
-    assert(latch.count() == 1);
+    assert(latch.count() == 0);
   });
 
   std::thread thread_slave1([&latch]() {
@@ -37,7 +37,6 @@ void TestCountDownLatch() {
 
 int main() {
   TestCountDownLatch();
-  assert(1 == 2);
 
   return 0;
 }
