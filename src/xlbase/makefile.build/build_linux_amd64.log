@@ -1,3 +1,0 @@
-compiling /home/xuelei/github/xlcomm/src/xlbase/thread/count_down_latch.o
-mkdir -p /home/xuelei/github/xlcomm/bin/linux_amd64/	
-g++ -g    -shared -fPIC -o /home/xuelei/github/xlcomm/bin/linux_amd64/libxlbase.so /home/xuelei/github/xlcomm/src/xlbase/thread/count_down_latch.o  -lstdc++fs -pthread -ldl  -Wl,-no-undefined -Wl,-rpath=/home/xuelei/github/xlcomm/bin/linux_amd64
