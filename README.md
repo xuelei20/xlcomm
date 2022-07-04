@@ -1,7 +1,7 @@
 # xlcomm
 xuelei's common library
 - src/base基本功能封装。包括线程、进程和应用程序、文件系统、日期时间、日志（同步/异步）等
-- src/net网络接口封装。
+- src/net高性能网络io封装。
 
 # 版本号及兼容性
 版本号使用x.y.z三位
