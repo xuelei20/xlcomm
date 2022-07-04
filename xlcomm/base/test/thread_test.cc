@@ -8,13 +8,16 @@
 #include <thread>
 #include <iostream>
 
-void TestCountDownLatch() {
+#define BOOST_TEST_MAIN
+#include "boost/test/included/unit_test.hpp"
+
+BOOST_AUTO_TEST_CASE(CountDownLatch) {
   xlcomm::base::CountDownLatch latch(3);
   std::cout << "sizeof(latch):" << sizeof(latch) << std::endl;
 
   std::thread thread_master([&latch]() {
     latch.Wait();
-    assert(latch.count() == 0);
+    BOOST_CHECK(latch.count() == 0);
   });
 
   std::thread thread_slave1([&latch]() {
@@ -35,8 +38,7 @@ void TestCountDownLatch() {
   thread_slave3.join();
 }
 
-int main() {
-  TestCountDownLatch();
-
-  return 0;
+BOOST_AUTO_TEST_CASE(mytest) {
+  BOOST_CHECK(1 == 1);
+  BOOST_CHECK(1 == 3);
 }

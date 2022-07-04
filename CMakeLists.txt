@@ -5,5 +5,6 @@ cmake_minimum_required(VERSION 3.8)
 project(xlcomm)
 
 include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/third_party/boost_1_77_0)
 
 add_subdirectory(xlcomm/base)
