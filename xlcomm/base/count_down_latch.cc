@@ -1,6 +1,7 @@
-﻿#include "xlbase/thread/count_down_latch.h"
+﻿#include "xlcomm/base/count_down_latch.h"
 
-namespace xlbase {
+namespace xlcomm {
+namespace base {
 
 CountDownLatch::CountDownLatch(int count)
   : impl_(std::make_unique<Impl>()) {
@@ -27,4 +28,5 @@ int CountDownLatch::count() const {
   return impl_->count;
 }
 
-}  // namespace xlbase
+}  // namespace base
+}  // namespace xlcomm

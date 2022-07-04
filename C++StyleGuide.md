@@ -208,27 +208,27 @@ C++实践中继承应用于两种场合：
 class Base
 {
 public:
-	Base() 
-	{
-	}
-	virtual ~Base() 
-	{
-	}
-	virtual void Run() = 0;
+  Base() 
+  {
+  }
+  virtual ~Base() 
+  {
+  }
+  virtual void Run() = 0;
 };
 
 class Derived1 : public Base
 {
 public:
-	Derived1() : Base()
-	{
-	}
-	virtual ~Derived1() override
-	{
-	}
-	virtual void Run() override
-	{
-	}
+  Derived1() : Base()
+  {
+  }
+  virtual ~Derived1() override
+  {
+  }
+  virtual void Run() override
+  {
+  }
 };
 ```
 
@@ -275,16 +275,16 @@ void Fun(const std::string &in, std::string *out);
 // Good
 class MyClass {
 public:
-    void Analyze(const string &text);
-    void Analyze(const char *text, size_t textlen);
+  void Analyze(const string &text);
+  void Analyze(const char *text, size_t textlen);
 };
 ```
 ```
 // Bad
 class MyClass {
 public:
-    void Append(int a);
-    void Append(char a);
+  void Append(int a);
+  void Append(char a);
 };
 // 改成AppendInt() AppendChar()更好
 ```
@@ -334,36 +334,36 @@ RTTI允许程序员在运行时识别C++类对象的类型，它通过使用type
 
 ## 使用前置自增和自减
 ++iter效率更高，因为iter++多一次拷贝
-	
+  
 ## 尽可能多用const，让代码更安全
 ```
 const int a = 10; // const标识常量，只读、不可修改
-	
+  
 class A
 {
 public:
-	int getA() const; // 类成员函数使用const标识不会改变成员变量的值
-	void fun2(const std::string &str);
+  int getA() const; // 类成员函数使用const标识不会改变成员变量的值
+  void fun2(const std::string &str);
 private:
-	int m_a;
+  int m_a;
 };
-	
+  
 // 以下三种都表示对象a只读，只能调用const成员函数
 const A a;
 const A& a;
 const A* pa; // 等于A const * pa;（可读性差）
-	
+  
 // 下面是变态写法（尽量不用），表示指针不可修改
 A* const pa;
 ```
 
 ## constexpr编译期求值
 const还可以被volatile mutable改变，定义为constexpr则是真正意义上的常量
-	
+  
 ## 整型
 C++内建整型只使用int，int是明确的32位。其他大小的整型要用int16_t、int64_t。不要使用传统的long类型，因为在不同操作系统很可能是不同长度。  
 无符号整型很危险，尽量不要使用，可以用有符号方便扩展，或者直接用断言代替。
-	
+  
 ## 32位和64位的区别
 - 指针大小、结构体对齐不一样
 - 创建64位常量时使用LL或ULL作为后缀
@@ -371,20 +371,20 @@ C++内建整型只使用int，int是明确的32位。其他大小的整型要用
 int64_t value = 0x123456LL;
 uint64_t value2 = 3ULL << 48;
 ```
-	
+  
 ## 谨慎使用宏
 尽量以内联函数、枚举、常量代替
 尽可能不要用 ## 处理函数，类和变量的名字
-	
+  
 ## 使用nullptr代替NULL
 因为NULL在不同操作系统可能是不同定义，可能只是单纯的0
 ```
 #ifndef NULL
-    #ifdef __cplusplus
-        #define NULL 0
-    #else
-        #define NULL ((void *)0)
-    #endif
+  #ifdef __cplusplus
+    #define NULL 0
+  #else
+    #define NULL ((void *)0)
+  #endif
 #endif
 ```
 
@@ -420,7 +420,7 @@ MyVector vec = {1,2,3};
 ```
 void testFunction(std::function<void(int)> f, int a)
 {
-    f(a);
+  f(a);
 }
 
 testFunction([](int num) {std::cout << num; }, 10);
@@ -452,13 +452,13 @@ std::function表示C++函数对象，比C语言的回调函数更灵活，且语
 ```
 void testFunction(std::function<void(int)> f, int a)
 {
-    f(a);
+  f(a);
 }
 
 typedef void(*cfun)(int); // 比较难写
 void testCFun(cfun f, int a)
 {
-    f(a);
+  f(a);
 }
 ```
 
@@ -544,14 +544,14 @@ const int kDaysInAWeek = 7;
 ```
 // better
 enum UrlTableErrors {
-    kOK = 0,
-    kErrorOutOfMemory,
-    kErrorMalformedInput,
+  kOK = 0,
+  kErrorOutOfMemory,
+  kErrorMalformedInput,
 };
 enum AlternateUrlTableErrors {
-    OK = 0,
-    OUT_OF_MEMORY = 1,
-    MALFORMED_INPUT = 2,
+  OK = 0,
+  OUT_OF_MEMORY = 1,
+  MALFORMED_INPUT = 2,
 };
 ```
 
@@ -732,7 +732,7 @@ bool retval = DoSomething(argument1, argument2, argument3);
 
 bool retval = DoSomething(averyveryveryverylongargument1,
                           argument2, argument3);
-			  
+        
 if (...) {
   ...
   ...
@@ -750,7 +750,7 @@ pair<int, int> p{foo, bar};
 
 SomeOtherType{"Slightly shorter string",  
               some, other, values}};
-	      
+        
 MyType m = {
     superlongvariablename1,
     superlongvariablename2,

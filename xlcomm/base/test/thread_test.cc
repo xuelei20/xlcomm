@@ -1,7 +1,7 @@
-﻿// 线程单元测试
+﻿// 线程相关单元测试
 // Author: xuel
 
-#include "xlbase/thread/i_thread.h"
+#include "xlcomm/base/count_down_latch.h"
 
 #include <assert.h>
 
@@ -9,7 +9,7 @@
 #include <iostream>
 
 void TestCountDownLatch() {
-  xlbase::CountDownLatch latch(3);
+  xlcomm::base::CountDownLatch latch(3);
   std::cout << "sizeof(latch):" << sizeof(latch) << std::endl;
 
   std::thread thread_master([&latch]() {

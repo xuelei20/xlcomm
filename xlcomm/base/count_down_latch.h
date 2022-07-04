@@ -1,16 +1,17 @@
 ﻿// 线程同步原语高级封装——倒数器。用于一个或多个线程等待一个或多个任务完成
 // Author: xuel
 
-#ifndef XLBASE_COUNTDOWNLATCH_H_
-#define XLBASE_COUNTDOWNLATCH_H_
+#ifndef XLCOMM_BASE_COUNTDOWNLATCH_H_
+#define XLCOMM_BASE_COUNTDOWNLATCH_H_
 
 #include <memory>
 #include <mutex>
 #include <condition_variable>
 
-#include "xlcomm_define.h"
+#include "xlcomm/xlcomm_define.h"
 
-namespace xlbase {
+namespace xlcomm {
+namespace base {
 
 class XLCOMM_API CountDownLatch {
 public:
@@ -31,6 +32,7 @@ private:
   std::unique_ptr<Impl> impl_;
 };
 
-}  // namespace xlbase
+}  // namespace base
+}  // namespace xlcomm
 
-#endif  // XLBASE_COUNTDOWNLATCH_H_
+#endif  // XLCOMM_BASE_COUNTDOWNLATCH_H_

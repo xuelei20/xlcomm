@@ -34,8 +34,10 @@
 *.app
 
 **/.vs
+**/.vscode
 **/Debug
 **/Release
-**/.vscode
+**/out
+**/build
 
 *.vcxproj.user
