@@ -37,7 +37,6 @@
 **/.vscode
 **/Debug
 **/Release
-**/out
 **/build
 
 *.vcxproj.user

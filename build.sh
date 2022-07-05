@@ -2,10 +2,12 @@
 
 echo "====start build xlcomm===="
 
+set -x
+
 SOURCE_DIR=`pwd`
-BUILD_DIR=${BUILD_DIR:-out/build}
+BUILD_DIR=${BUILD_DIR:-build}
 BUILD_TYPE=${BUILD_TYPE:-release}
-INSTALL_DIR=${INSTALL_DIR:-out/${BUILD_TYPE}-install}
+INSTALL_DIR=${INSTALL_DIR:-install/${BUILD_TYPE}}
 CXX=${CXX:-g++}
 
 mkdir -p $BUILD_DIR/$BUILD_TYPE \

@@ -14,7 +14,7 @@ namespace xlcomm {
 namespace base {
 
 class XLCOMM_API CountDownLatch {
-public:
+ public:
   explicit CountDownLatch(int count);
   CountDownLatch(const CountDownLatch&) = delete;
   CountDownLatch& operator=(const CountDownLatch&) = delete;
@@ -23,13 +23,10 @@ public:
   void CountDown();
   int count() const;
 
-private:
-  struct Impl {
-    mutable std::mutex mutex;
-    std::condition_variable condition;
-    int count = 0;
-  };
-  std::unique_ptr<Impl> impl_;
+ private:
+  mutable std::mutex mutex_;
+  std::condition_variable condition_;
+  int count_ = 0;
 };
 
 }  // namespace base
