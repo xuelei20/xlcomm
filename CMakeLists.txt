@@ -13,16 +13,16 @@ set(CXX_FLAGS
  -DCHECK_PTHREAD_RETURN_VALUE
  -D_FILE_OFFSET_BITS=64
  -Wall
- -Wextra
- -Werror
+# -Wextra
+# -Werror
 #  -Wconversion
- -Wno-unused-parameter
+# -Wno-unused-parameter
 #  -Wold-style-cast
 #  -Woverloaded-virtual
- -Wpointer-arith
- -Wshadow
- -Wwrite-strings
- -march=native
+# -Wpointer-arith
+# -Wshadow
+# -Wwrite-strings
+# -march=native
  # -MMD
  -std=c++14
  -rdynamic
