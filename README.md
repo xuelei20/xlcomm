@@ -22,3 +22,12 @@ xuelei's common library
 破坏API的:
 1. 修改原有函数声明(包括名字 参数 返回值)
 2. 删除函数,结构体,结构体字段,枚举字段等
+
+# 各个平台
+| 操作系统 | 编辑器/IDE         | 编译规则   |  编译器   | 运行时库                                  | 调试器  |
+| :-----: | :----------------: | :-------: | :-----:  | :---------------------------------------: | :----: |
+| Windows | Visual Studio 201x | .vcxproj  | MSVC(cl) | Microsoft Visual C++ 201x Redistributable | WinDbg |
+| Linux   | vim/VSCode         | Makefile  | gcc/g++  | libc/libstdc++                            | gdb    |
+| MacOS   | XCode              | XCode     | Clang    | libc++                                    |        |
+
+CMake允许开发者编写一种平台无关的 CMakeList.txt 文件来定制整个编译流程，然后再根据目标用户的平台进一步生成所需的本地化 Makefile 或工程文件
